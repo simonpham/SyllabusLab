@@ -3,6 +3,7 @@ package com.hasbrain.areyouandroiddev;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 /**
  * Created by Simon Pham on 4/16/18.
@@ -25,6 +26,10 @@ public class PostViewActivity extends AppCompatActivity {
 
     private void initialize() {
         vWeb = findViewById(R.id.webView);
+
+        // enable javascript
+        vWeb.setWebViewClient(new WebViewClient());
+        vWeb.getSettings().setJavaScriptEnabled(true);
     }
 
     private void loadUrl(String url) {
