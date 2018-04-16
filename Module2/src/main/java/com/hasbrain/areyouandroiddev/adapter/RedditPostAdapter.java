@@ -94,7 +94,7 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
             return toMinutes(time) + " minutes ago";
         } else if (elapsedTime < ONE_DAY) {
             return toHours(time) + " hours ago";
-        } else if (elapsedTime < ONE_WEEK) {
+        } else if (elapsedTime < ONE_MONTH) {
             return toDays(time) + " days ago";
         }
 
