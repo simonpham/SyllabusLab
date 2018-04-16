@@ -19,7 +19,7 @@ public class PostViewActivity extends AppCompatActivity {
 
         initialize();
 
-        String url = getIntent().getStringExtra("Url");
+        String url = getIntent().getStringExtra("PostListActivity.POST_URL");
         loadUrl(url);
     }
 

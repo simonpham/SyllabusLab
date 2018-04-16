@@ -58,7 +58,7 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostViewActivity.class);
-                intent.putExtra("Url", postList.get(position).getUrl());
+                intent.putExtra("PostListActivity.POST_URL", postList.get(position).getUrl());
                 context.startActivity(intent);
             }
         });
