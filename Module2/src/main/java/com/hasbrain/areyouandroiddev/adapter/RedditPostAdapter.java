@@ -1,14 +1,14 @@
 package com.hasbrain.areyouandroiddev.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.hasbrain.areyouandroiddev.PostViewActivity;
 import com.hasbrain.areyouandroiddev.R;
 import com.hasbrain.areyouandroiddev.model.RedditPost;
 
@@ -25,12 +25,10 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
         this.postList = postList;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        assert inflater != null;
-        @SuppressLint("ViewHolder") View rowView = inflater.inflate(R.layout.reddit_post_list_item, parent, false);
+        View rowView = inflater.inflate(R.layout.reddit_post_list_item, parent, false);
 
         TextView tvScore = rowView.findViewById(R.id.tvScore);
         TextView tvAuthor = rowView.findViewById(R.id.tvAuthor);
@@ -55,6 +53,15 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
             long time = postList.get(position).getCreatedUTC();
             tvTime.setText(getDisplayTime(time));
         }
+
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PostViewActivity.class);
+                intent.putExtra("Url", postList.get(position).getUrl());
+                context.startActivity(intent);
+            }
+        });
 
         return rowView;
     }
