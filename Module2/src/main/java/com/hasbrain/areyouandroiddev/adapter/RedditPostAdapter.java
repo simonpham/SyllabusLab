@@ -51,7 +51,7 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
             tvAuthor.setText(postList.get(position).getAuthor());
             tvRedditName.setText(postList.get(position).getSubreddit());
             tvTitle.setText(postList.get(position).getTitle());
-            tvCommentCount.setText(postList.get(position).getCommentCount() + "");
+            tvCommentCount.setText(postList.get(position).getCommentCount() + " Comments");
             tvDomain.setText(postList.get(position).getDomain());
 
             if (postList.get(position).isStickyPost()) {
