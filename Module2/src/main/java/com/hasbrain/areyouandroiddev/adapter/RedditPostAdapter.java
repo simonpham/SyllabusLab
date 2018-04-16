@@ -75,7 +75,6 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
     }
 
     private String getDisplayTime(long time) {
-        // TODO: convert timestamp to "A fews seconds ago", "3 minutes ago",...
         String displayTime = getTimeAgo(time);
         if (!(displayTime.startsWith("-") || displayTime.startsWith("0"))) {
             return displayTime;
@@ -103,20 +102,20 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
 
     private int toMinutes(long time) {
         long currentTime = System.currentTimeMillis() / 1000;
-        return Integer.parseInt(new java.text.SimpleDateFormat("mm").format(new java.util.Date(currentTime * 1000)))
-                - Integer.parseInt(new java.text.SimpleDateFormat("mm").format(new java.util.Date(time * 1000)));
+        return Integer.parseInt(new java.text.SimpleDateFormat("m").format(new java.util.Date(currentTime * 1000)))
+                - Integer.parseInt(new java.text.SimpleDateFormat("m").format(new java.util.Date(time * 1000)));
     }
 
     private int toHours(long time) {
         long currentTime = System.currentTimeMillis() / 1000;
-        return Integer.parseInt(new java.text.SimpleDateFormat("hh").format(new java.util.Date(currentTime * 1000)))
-                - Integer.parseInt(new java.text.SimpleDateFormat("hh").format(new java.util.Date(time * 1000)));
+        return Integer.parseInt(new java.text.SimpleDateFormat("H").format(new java.util.Date(currentTime * 1000)))
+                - Integer.parseInt(new java.text.SimpleDateFormat("H").format(new java.util.Date(time * 1000)));
     }
 
     private int toDays(long time) {
         long currentTime = System.currentTimeMillis() / 1000;
-        return Integer.parseInt(new java.text.SimpleDateFormat("DD").format(new java.util.Date(currentTime * 1000)))
-                - Integer.parseInt(new java.text.SimpleDateFormat("DD").format(new java.util.Date(time * 1000)));
+        return Integer.parseInt(new java.text.SimpleDateFormat("D").format(new java.util.Date(currentTime * 1000)))
+                - Integer.parseInt(new java.text.SimpleDateFormat("D").format(new java.util.Date(time * 1000)));
     }
 
 }
