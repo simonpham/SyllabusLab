@@ -77,7 +77,7 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
     private String getDisplayTime(long time) {
         // TODO: convert timestamp to "A fews seconds ago", "3 minutes ago",...
         String displayTime = getTimeAgo(time);
-        if (!(displayTime.startsWith("-"))) {
+        if (!(displayTime.startsWith("-") || displayTime.startsWith("0"))) {
             return displayTime;
         }
 
