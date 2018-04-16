@@ -19,6 +19,14 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
     private final Context context;
     private final List<RedditPost> postList;
 
+    // Human readable time  https://www.epochconverter.com/
+    private final long ONE_MINUTE = 60;
+    private final long ONE_HOUR = 3600;
+    private final long ONE_DAY = 86400;
+    private final long ONE_WEEK = 604800;
+    private final long ONE_MONTH = 2629743;
+    private final long ONE_YEAR = 31556926;
+
     public RedditPostAdapter(Context context, List<RedditPost> postList) {
         super(context, -1, postList);
         this.context = context;
@@ -68,20 +76,47 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
 
     private String getDisplayTime(long time) {
         // TODO: convert timestamp to "A fews seconds ago", "3 minutes ago",...
-//        long currentTime = System.currentTimeMillis()/1000;
-//        long elapsedTime = currentTime - time;
-//
-//        if (elapsedTime < 60) {
-//            return "A few seconds ago";
-//        } else if (elapsedTime >= 60 && elapsedTime < 3600) {
-//            return "minutes ago";
-//        } else if (elapsedTime >= 216000 && elapsedTime < 5184000) {
-//            return (Long.parseLong(new java.text.SimpleDateFormat("HH").format(new java.util.Date (currentTime*1000)))
-//            - Long.parseLong(new java.text.SimpleDateFormat("HH").format(new java.util.Date (time*1000)))) + "hours ago";
-//        } else if (elapsedTime >= 5184000) {
-        return new java.text.SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new java.util.Date(time * 1000));
-//        }
+        String displayTime = getTimeAgo(time);
+        if (!(displayTime.startsWith("-"))) {
+            return displayTime;
+        }
 
-//        return "n/a";
+        return new java.text.SimpleDateFormat("HH:mm:ss dd/MM/yyyy ").format(new java.util.Date(time * 1000));
     }
+
+    private String getTimeAgo(long time) {
+        long currentTime = System.currentTimeMillis() / 1000;
+        long elapsedTime = currentTime - time;
+
+        if (elapsedTime >= 0 && elapsedTime < ONE_MINUTE) {
+            return "A few seconds ago";
+        } else if (elapsedTime < ONE_HOUR) {
+            return toMinutes(time) + " minutes ago";
+        } else if (elapsedTime < ONE_DAY) {
+            return toHours(time) + " hours ago";
+        } else if (elapsedTime < ONE_WEEK) {
+            return toDays(time) + " days ago";
+        }
+
+        return new java.text.SimpleDateFormat("HH:mm:ss dd/MM/yyyy ").format(new java.util.Date(time * 1000));
+    }
+
+    private int toMinutes(long time) {
+        long currentTime = System.currentTimeMillis() / 1000;
+        return Integer.parseInt(new java.text.SimpleDateFormat("mm").format(new java.util.Date(currentTime * 1000)))
+                - Integer.parseInt(new java.text.SimpleDateFormat("mm").format(new java.util.Date(time * 1000)));
+    }
+
+    private int toHours(long time) {
+        long currentTime = System.currentTimeMillis() / 1000;
+        return Integer.parseInt(new java.text.SimpleDateFormat("hh").format(new java.util.Date(currentTime * 1000)))
+                - Integer.parseInt(new java.text.SimpleDateFormat("hh").format(new java.util.Date(time * 1000)));
+    }
+
+    private int toDays(long time) {
+        long currentTime = System.currentTimeMillis() / 1000;
+        return Integer.parseInt(new java.text.SimpleDateFormat("DD").format(new java.util.Date(currentTime * 1000)))
+                - Integer.parseInt(new java.text.SimpleDateFormat("DD").format(new java.util.Date(time * 1000)));
+    }
+
 }
