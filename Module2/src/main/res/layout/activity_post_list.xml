@@ -6,8 +6,21 @@
     tools:context=".PostListActivity">
 
     <ListView
-        android:id="@+id/lvPosts"
+        android:id="@+id/listPosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/transparent" />
+
+    <GridView
+        android:id="@+id/gridPosts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#303030"
+        android:columnWidth="200dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp"
+        android:visibility="gone" />
 </RelativeLayout>

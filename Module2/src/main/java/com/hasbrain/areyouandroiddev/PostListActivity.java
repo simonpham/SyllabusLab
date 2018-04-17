@@ -2,10 +2,12 @@ package com.hasbrain.areyouandroiddev;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,14 +30,23 @@ public class PostListActivity extends AppCompatActivity {
     private FeedDataStore feedDataStore;
 
     private TextView tvReddit;
+    private View footerView;
     private ListView list;
+    private GridView grid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResource());
-
         initialize();
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            list.setVisibility(View.GONE);
+            grid.setVisibility(View.VISIBLE);
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            grid.setVisibility(View.GONE);
+            list.setVisibility(View.VISIBLE);
+        }
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(RedditPost.class, new RedditPostConverter());
@@ -70,11 +81,13 @@ public class PostListActivity extends AppCompatActivity {
                 getApplicationContext().startActivity(intent);
             }
         });
+
     }
 
     protected void initialize() {
-        list = findViewById(R.id.lvPosts);
-        View footerView = ((LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_post_list, null, false);
+        list = findViewById(R.id.listPosts);
+        grid = findViewById(R.id.gridPosts);
+        footerView = ((LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.footer_post_list, null, false);
         list.addFooterView(footerView);
         tvReddit = footerView.findViewById(R.id.tvRedditLink);
     }
@@ -83,6 +96,7 @@ public class PostListActivity extends AppCompatActivity {
         RedditPostAdapter adapter = new RedditPostAdapter(getApplicationContext(), postList);
 
         list.setAdapter(adapter);
+        grid.setAdapter(adapter);
     }
 
     protected int getLayoutResource() {

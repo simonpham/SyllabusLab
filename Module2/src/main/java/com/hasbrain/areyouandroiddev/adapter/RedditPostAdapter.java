@@ -43,23 +43,24 @@ public class RedditPostAdapter extends ArrayAdapter<RedditPost> {
         TextView tvRedditName = rowView.findViewById(R.id.tvRedditName);
         TextView tvTitle = rowView.findViewById(R.id.tvTitle);
         TextView tvCommentCount = rowView.findViewById(R.id.tvCommentCount);
-        TextView tvDomain = rowView.findViewById(R.id.tvDomain);
-        TextView tvTime = rowView.findViewById(R.id.tvTime);
 
         if (postList != null) {
+
+            long time = postList.get(position).getCreatedUTC();
             tvScore.setText(postList.get(position).getScore() + "");
             tvAuthor.setText(postList.get(position).getAuthor());
             tvRedditName.setText(postList.get(position).getSubreddit());
             tvTitle.setText(postList.get(position).getTitle());
-            tvCommentCount.setText(postList.get(position).getCommentCount() + " Comments");
-            tvDomain.setText(postList.get(position).getDomain());
+            tvCommentCount.setText(postList.get(position).getCommentCount()
+                    + " Comments"
+                    + " • "
+                    + postList.get(position).getDomain()
+                    + " • "
+                    + getDisplayTime(time));
 
             if (postList.get(position).isStickyPost()) {
                 tvTitle.setTextColor(context.getResources().getColor(R.color.post_title_sticky));
             }
-
-            long time = postList.get(position).getCreatedUTC();
-            tvTime.setText(getDisplayTime(time));
         }
 
         rowView.setOnClickListener(new View.OnClickListener() {
