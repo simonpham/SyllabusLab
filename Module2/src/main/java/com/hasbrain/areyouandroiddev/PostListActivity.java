@@ -41,11 +41,11 @@ public class PostListActivity extends AppCompatActivity {
         initialize();
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            list.setVisibility(View.GONE);
-            grid.setVisibility(View.VISIBLE);
+            if (list != null) list.setVisibility(View.GONE);
+            if (grid != null) grid.setVisibility(View.VISIBLE);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            grid.setVisibility(View.GONE);
-            list.setVisibility(View.VISIBLE);
+            if (grid != null) grid.setVisibility(View.GONE);
+            if (list != null) list.setVisibility(View.VISIBLE);
         }
 
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -73,15 +73,16 @@ public class PostListActivity extends AppCompatActivity {
             }
         }
 
-        tvReddit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), PostViewActivity.class);
-                intent.putExtra("PostListActivity.POST_URL", REDDIT_PAGE_LINK);
-                getApplicationContext().startActivity(intent);
-            }
-        });
-
+        if (tvReddit != null) {
+            tvReddit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), PostViewActivity.class);
+                    intent.putExtra("PostListActivity.POST_URL", REDDIT_PAGE_LINK);
+                    getApplicationContext().startActivity(intent);
+                }
+            });
+        }
     }
 
     protected void initialize() {
