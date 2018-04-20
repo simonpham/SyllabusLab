@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.hasbrain.areyouandroiddev.R;
 import com.hasbrain.areyouandroiddev.model.RedditPost;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class ExpandedPostAdapter extends BaseExpandableListAdapter {
     private List<String> listHeader; // header titles
     // child data in format of header title, child title
 
-    private final List<RedditPost> postList;
+    private final HashMap<String, List<RedditPost>> listChildData;
 
     // Human readable time  https://www.epochconverter.com/
     private final long ONE_MINUTE = 60;
@@ -34,15 +35,15 @@ public class ExpandedPostAdapter extends BaseExpandableListAdapter {
     private final long ONE_YEAR = 31556926;
 
     public ExpandedPostAdapter(Context context, List<String> listDataHeader,
-                               List<RedditPost> listChildData) {
+                               HashMap<String, List<RedditPost>> listChildData) {
         this.context = context;
         this.listHeader = listDataHeader;
-        this.postList = listChildData;
+        this.listChildData = listChildData;
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this.postList.get(childPosititon);
+        return this.listChildData.get(listHeader.get(groupPosition)).get(childPosititon);
     }
 
     @Override
@@ -53,6 +54,8 @@ public class ExpandedPostAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
+
+        final RedditPost post = (RedditPost) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -66,22 +69,24 @@ public class ExpandedPostAdapter extends BaseExpandableListAdapter {
         TextView tvTitle = convertView.findViewById(R.id.tvTitle);
         TextView tvCommentCount = convertView.findViewById(R.id.tvCommentCount);
 
-        if (postList != null) {
+        if (post != null) {
 
-            long time = postList.get(childPosition).getCreatedUTC();
-            tvScore.setText(postList.get(childPosition).getScore() + "");
-            tvAuthor.setText(postList.get(childPosition).getAuthor());
-            tvRedditName.setText(postList.get(childPosition).getSubreddit());
-            tvTitle.setText(postList.get(childPosition).getTitle());
-            tvCommentCount.setText(postList.get(childPosition).getCommentCount()
+            long time = post.getCreatedUTC();
+            tvScore.setText(post.getScore() + "");
+            tvAuthor.setText(post.getAuthor());
+            tvRedditName.setText(post.getSubreddit());
+            tvTitle.setText(post.getTitle());
+            tvCommentCount.setText(post.getCommentCount()
                     + " Comments"
                     + " • "
-                    + postList.get(childPosition).getDomain()
+                    + post.getDomain()
                     + " • "
                     + getDisplayTime(time));
 
-            if (postList.get(childPosition).isStickyPost()) {
+            if (groupPosition == 0) {
                 tvTitle.setTextColor(context.getResources().getColor(R.color.post_title_sticky));
+            } else {
+                tvTitle.setTextColor(context.getResources().getColor(R.color.textPrimary));
             }
         }
 
@@ -90,7 +95,7 @@ public class ExpandedPostAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this.postList.size();
+        return this.listChildData.get(listHeader.get(groupPosition)).size();
     }
 
     @Override

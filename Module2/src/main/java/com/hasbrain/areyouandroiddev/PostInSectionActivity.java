@@ -18,6 +18,7 @@ import com.hasbrain.areyouandroiddev.model.RedditPostConverter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,6 +29,10 @@ public class PostInSectionActivity extends PostListActivity {
     private FeedDataStore feedDataStore;
 
     private ExpandableListView list;
+    List<String> listDataHeader;
+    HashMap<String, List<RedditPost>> listDataChild;
+    List<RedditPost> stickyPosts;
+    List<RedditPost> normalPosts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +87,27 @@ public class PostInSectionActivity extends PostListActivity {
 
     @Override
     protected void displayPostList(List<RedditPost> postList) {
-        ArrayList<String> listHeader = new ArrayList<>();
-        listHeader.add("Sticky posts");
-        listHeader.add("Normal posts");
-        ExpandedPostAdapter adapter = new ExpandedPostAdapter(getApplicationContext(), listHeader, postList);
+        listDataHeader = new ArrayList<>();
+        listDataHeader.add("Sticky posts");
+        listDataHeader.add("Normal posts");
+        listDataChild = new HashMap<>();
+
+        stickyPosts = new ArrayList<RedditPost>();
+        normalPosts = new ArrayList<RedditPost>();
+
+        int i;
+        for (i = 0; i < postList.size(); i++) {
+            if (postList.get(i).isStickyPost()) {
+                stickyPosts.add(postList.get(i));
+            } else {
+                normalPosts.add(postList.get(i));
+            }
+        }
+
+        listDataChild.put(listDataHeader.get(0), stickyPosts);
+        listDataChild.put(listDataHeader.get(1), normalPosts);
+
+        ExpandedPostAdapter adapter = new ExpandedPostAdapter(getApplicationContext(), listDataHeader, listDataChild);
 
         list.setAdapter(adapter);
     }
