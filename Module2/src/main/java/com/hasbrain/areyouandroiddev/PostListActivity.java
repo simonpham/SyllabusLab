@@ -29,8 +29,8 @@ public class PostListActivity extends AppCompatActivity {
     public static final String DATA_JSON_FILE_NAME = "data.json";
     private FeedDataStore feedDataStore;
 
-    private TextView tvReddit;
-    private View footerView;
+    public TextView tvReddit;
+    public View footerView;
     private ListView list;
     private GridView grid;
 
