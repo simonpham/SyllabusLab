@@ -1,7 +1,6 @@
 package com.hasbrain.areyouandroiddev.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import java.util.List;
 public class ExpandedPostAdapter extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<String> _listDataHeader; // header titles
+    private List<String> listHeader; // header titles
     // child data in format of header title, child title
 
     private final List<RedditPost> postList;
@@ -37,7 +36,7 @@ public class ExpandedPostAdapter extends BaseExpandableListAdapter {
     public ExpandedPostAdapter(Context context, List<String> listDataHeader,
                                List<RedditPost> listChildData) {
         this.context = context;
-        this._listDataHeader = listDataHeader;
+        this.listHeader = listDataHeader;
         this.postList = listChildData;
     }
 
@@ -96,12 +95,12 @@ public class ExpandedPostAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int groupPosition) {
-        return this._listDataHeader.get(groupPosition);
+        return this.listHeader.get(groupPosition);
     }
 
     @Override
     public int getGroupCount() {
-        return this._listDataHeader.size();
+        return this.listHeader.size();
     }
 
     @Override
@@ -120,7 +119,6 @@ public class ExpandedPostAdapter extends BaseExpandableListAdapter {
         }
 
         TextView lblListHeader = convertView.findViewById(R.id.tvHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
 
         return convertView;
