@@ -21,6 +21,13 @@ import java.util.List;
  */
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
+    private final long ONE_MINUTE = 60;
+    private final long ONE_HOUR = 3600;
+    private final long ONE_DAY = 86400;
+    private final long ONE_WEEK = 604800;
+    private final long ONE_MONTH = 2629743;
+    private final long ONE_YEAR = 31556926;
+
     private Context context;
     private List<RedditPost> postList;
 
