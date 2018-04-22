@@ -1,6 +1,7 @@
 package com.hasbrain.areyouandroiddev.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,10 +28,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         TextView tvRedditName;
         TextView tvTitle;
         TextView tvCommentCount;
+        View layout;
 
 
         ViewHolder(View v) {
             super(v);
+            this.layout = v;
 
             tvScore = v.findViewById(R.id.tvScore);
             tvAuthor = v.findViewById(R.id.tvAuthor);
@@ -71,8 +74,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 + getDisplayTime(time));
 
         if (postList.get(position).isStickyPost()) {
-            viewHolder.tvTitle.setTextColor(.getResources().getColor(R.color.post_title_sticky));
+            viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.post_title_sticky));
         }
+
+
+        viewHolder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PostViewActivity.class);
+                intent.putExtra("PostListActivity.POST_URL", postList.get(position).getUrl());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
