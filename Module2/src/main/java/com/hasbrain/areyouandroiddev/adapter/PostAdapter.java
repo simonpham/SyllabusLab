@@ -1,6 +1,7 @@
 package com.hasbrain.areyouandroiddev.adapter;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import java.util.List;
  */
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
+    private Context context;
     private List<RedditPost> postList;
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,7 +45,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
     }
 
-    public PostAdapter(List<RedditPost> postList) {
+    public PostAdapter(Context context, List<RedditPost> postList) {
+        this.context = context;
         this.postList = postList;
     }
 
