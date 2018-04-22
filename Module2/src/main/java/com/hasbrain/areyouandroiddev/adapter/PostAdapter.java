@@ -1,5 +1,6 @@
 package com.hasbrain.areyouandroiddev.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -53,9 +54,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return viewHolder;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
 
+        long time = postList.get(position).getCreatedUTC();
+        viewHolder.tvScore.setText(postList.get(position).getScore() + "");
+        viewHolder.tvAuthor.setText(postList.get(position).getAuthor());
+        viewHolder.tvRedditName.setText(postList.get(position).getSubreddit());
+        viewHolder.tvTitle.setText(postList.get(position).getTitle());
+        viewHolder.tvCommentCount.setText(postList.get(position).getCommentCount()
+                + " Comments"
+                + " • "
+                + postList.get(position).getDomain()
+                + " • "
+                + getDisplayTime(time));
+
+        if (postList.get(position).isStickyPost()) {
+            viewHolder.tvTitle.setTextColor(.getResources().getColor(R.color.post_title_sticky));
+        }
     }
 
     @Override
