@@ -3,17 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-
-    <color name="transparent">#00000000</color>
-    <color name="white">#FFFFFF</color>
-
+    
     <color name="textPrimary">#DE000000</color>
     <color name="textSecondary">#80000000</color>
-    <color name="textPrimaryDark">#FFFFFF</color>
-    <color name="textSecondaryDark">#696969</color>
 
     <color name="post_title_sticky">#DE387801</color>
 
     <color name="name_title">#DE0A295A</color>
-    <color name="name_title_dark">#24596e</color>
 </resources>
