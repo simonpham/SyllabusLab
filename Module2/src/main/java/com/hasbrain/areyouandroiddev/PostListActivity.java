@@ -2,9 +2,11 @@ package com.hasbrain.areyouandroiddev;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.hasbrain.areyouandroiddev.adapter.PostAdapter;
 import com.hasbrain.areyouandroiddev.datastore.FeedDataStore;
 import com.hasbrain.areyouandroiddev.datastore.FileBasedFeedDataStore;
 import com.hasbrain.areyouandroiddev.model.RedditPost;
@@ -19,10 +21,16 @@ public class PostListActivity extends AppCompatActivity {
     public static final String DATA_JSON_FILE_NAME = "data.json";
     private FeedDataStore feedDataStore;
 
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResource());
+
+        initialize();
+
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(RedditPost.class, new RedditPostConverter());
         Gson gson = gsonBuilder.create();
@@ -49,8 +57,13 @@ public class PostListActivity extends AppCompatActivity {
         }
     }
 
+    private void initialize() {
+        recyclerView = findViewById(R.id.listPost);
+    }
+
     protected void displayPostList(List<RedditPost> postList) {
-        //TODO: Display post list.
+        adapter = new PostAdapter(this, postList);
+        recyclerView.setAdapter(adapter);
     }
 
     protected int getLayoutResource() {
