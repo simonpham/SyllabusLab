@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/cardview_light_background"
     app:cardCornerRadius="3dp"
     app:cardElevation="3dp"
     app:cardUseCompatPadding="true"
@@ -19,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingRight="4dp"
-            android:textColor="@color/post_title_normal"
+            android:textColor="?android:textColorPrimary"
             android:textSize="24sp"
             app:layout_constraintBottom_toTopOf="@+id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text=" in "
-            android:textColor="@color/textSecondary"
+            android:textColor="?android:textColorSecondary"
             app:layout_constraintBottom_toTopOf="@+id/tvTitle"
             app:layout_constraintEnd_toStartOf="@id/tvRedditName"
             app:layout_constraintStart_toEndOf="@id/tvAuthor"
@@ -65,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:textColor="@color/textPrimary"
+            android:textColor="?android:textColorPrimary"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvScore"
@@ -75,46 +74,10 @@
             android:id="@+id/tvCommentCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textSecondary"
-
+            android:textColor="?android:textColorSecondary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            tools:text="19 comments" />
+            tools:text="19 comments • github.com • 4 hours" />
 
-        <TextView
-            android:id="@+id/bullet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" • "
-            android:textColor="@color/textSecondary"
-            app:layout_constraintStart_toEndOf="@id/tvCommentCount"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-        <TextView
-            android:id="@+id/tvDomain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textSecondary"
-            app:layout_constraintStart_toEndOf="@+id/bullet"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            tools:text="github.com" />
-
-        <TextView
-            android:id="@+id/bullet2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" • "
-            android:textColor="@color/post_title_normal"
-            app:layout_constraintStart_toEndOf="@id/tvDomain"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
-
-        <TextView
-            android:id="@+id/tvTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/textSecondary"
-            app:layout_constraintStart_toEndOf="@+id/bullet2"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-            tools:text="4 hours" />
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
