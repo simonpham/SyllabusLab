@@ -80,4 +80,53 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return postList.size();
     }
 
+    @SuppressLint("SimpleDateFormat")
+    private String getDisplayTime(long time) {
+        String displayTime = getTimeAgo(time);
+        if (!(displayTime.startsWith("-") || displayTime.startsWith("0"))) {
+            return displayTime;
+        }
+
+        return new java.text.SimpleDateFormat("HH:mm:ss dd/MM/yyyy ").format(new java.util.Date(time * 1000));
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private String getTimeAgo(long time) {
+        long currentTime = System.currentTimeMillis() / 1000;
+        long elapsedTime = currentTime - time;
+
+        if (elapsedTime >= 0 && elapsedTime < ONE_MINUTE) {
+            return "A few seconds ago";
+        } else if (elapsedTime < ONE_HOUR) {
+            return toMinutes(time) + " minutes ago";
+        } else if (elapsedTime < ONE_DAY) {
+            return toHours(time) + " hours ago";
+        } else if (elapsedTime < ONE_MONTH) {
+            return toDays(time) + " days ago";
+        }
+
+        return new java.text.SimpleDateFormat("HH:mm:ss dd/MM/yyyy ").format(new java.util.Date(time * 1000));
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private int toMinutes(long time) {
+        long currentTime = System.currentTimeMillis() / 1000;
+        return Integer.parseInt(new java.text.SimpleDateFormat("m").format(new java.util.Date(currentTime * 1000)))
+                - Integer.parseInt(new java.text.SimpleDateFormat("m").format(new java.util.Date(time * 1000)));
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private int toHours(long time) {
+        long currentTime = System.currentTimeMillis() / 1000;
+        return Integer.parseInt(new java.text.SimpleDateFormat("H").format(new java.util.Date(currentTime * 1000)))
+                - Integer.parseInt(new java.text.SimpleDateFormat("H").format(new java.util.Date(time * 1000)));
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private int toDays(long time) {
+        long currentTime = System.currentTimeMillis() / 1000;
+        return Integer.parseInt(new java.text.SimpleDateFormat("D").format(new java.util.Date(currentTime * 1000)))
+                - Integer.parseInt(new java.text.SimpleDateFormat("D").format(new java.util.Date(time * 1000)));
+    }
+
 }
