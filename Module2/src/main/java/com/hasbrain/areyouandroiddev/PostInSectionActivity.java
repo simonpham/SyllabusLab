@@ -50,10 +50,6 @@ public class PostInSectionActivity extends PostListActivity {
 
         listExp.setAdapter(adapter);
 
-
-//        adapter = new PostAdapter(this, postList);
-//        recyclerView.setAdapter(adapter);
-
     }
 
     @Override
