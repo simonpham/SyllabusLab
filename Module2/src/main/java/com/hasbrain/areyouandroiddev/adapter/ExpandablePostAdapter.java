@@ -38,7 +38,9 @@ public class ExpandablePostAdapter extends BaseExpandableListAdapter {
     private final HashMap<String, List<RedditPost>> listChildData;
 
 
-    public ExpandablePostAdapter(Context context, List<String> listDataHeader, HashMap<String, List<RedditPost>> listChildData) {
+    public ExpandablePostAdapter(Context context,
+                                 List<String> listDataHeader,
+                                 HashMap<String, List<RedditPost>> listChildData) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listChildData = listChildData;
@@ -134,20 +136,20 @@ public class ExpandablePostAdapter extends BaseExpandableListAdapter {
     @SuppressLint("SetTextI18n")
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-
+        int type = getChildType(groupPosition, childPosition);
         final RedditPost post = (RedditPost) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-            if (getChildType(groupPosition, childPosition) == ITEM_POST) {
+            if (type == ITEM_POST) {
                 convertView = inflater.inflate(R.layout.item_reddit_post, null);
             } else {
                 convertView = inflater.inflate(R.layout.item_footer, null);
             }
         }
 
-        if (getChildType(groupPosition, childPosition) == ITEM_POST) {
+        if (type == ITEM_POST) {
             ViewHolder viewHolder = new ViewHolder(convertView, ITEM_POST);
 
             long time = post.getCreatedUTC();
