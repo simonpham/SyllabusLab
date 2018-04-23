@@ -2,10 +2,13 @@ package com.hasbrain.areyouandroiddev.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.TextView;
 
+import com.hasbrain.areyouandroiddev.R;
 import com.hasbrain.areyouandroiddev.model.RedditPost;
 
 import java.util.HashMap;
@@ -78,7 +81,16 @@ public class ExpandablePostAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        return null;
+        String headerTitle = (String) getGroup(groupPosition);
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            convertView = inflater.inflate(R.layout.post_list_header, parent);
+        }
+
+        TextView lblListHeader = convertView.findViewById(R.id.tvHeader);
+        lblListHeader.setText(headerTitle);
+
+        return convertView;
     }
 
     @Override
