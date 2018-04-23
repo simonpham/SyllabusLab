@@ -1,5 +1,6 @@
 package com.hasbrain.areyouandroiddev;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
@@ -24,6 +25,7 @@ public class PostViewActivity extends AppCompatActivity {
         loadUrl(url);
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initialize() {
         vWeb = findViewById(R.id.webView);
 
