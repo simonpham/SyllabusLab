@@ -2,12 +2,14 @@ package com.hasbrain.areyouandroiddev.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.hasbrain.areyouandroiddev.PostViewActivity;
 import com.hasbrain.areyouandroiddev.R;
 import com.hasbrain.areyouandroiddev.model.RedditPost;
 
@@ -149,9 +151,9 @@ public class ExpandablePostAdapter extends BaseExpandableListAdapter {
             }
         }
 
-        if (type == ITEM_POST) {
-            ViewHolder viewHolder = new ViewHolder(convertView, ITEM_POST);
+        ViewHolder viewHolder = new ViewHolder(convertView, ITEM_POST);
 
+        if (type == ITEM_POST) {
             long time = post.getCreatedUTC();
             viewHolder.tvScore.setText(post.getScore() + "");
             viewHolder.tvAuthor.setText(post.getAuthor());
@@ -170,6 +172,15 @@ public class ExpandablePostAdapter extends BaseExpandableListAdapter {
                 viewHolder.tvTitle.setTextColor(viewHolder.tvScore.getTextColors());
             }
 
+        } else {
+            viewHolder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PostViewActivity.class);
+                    intent.putExtra("PostListActivity.POST_URL", REDDIT_PAGE_LINK);
+                    context.startActivity(intent);
+                }
+            });
         }
 
         return convertView;
