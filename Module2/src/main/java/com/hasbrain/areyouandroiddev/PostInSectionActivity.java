@@ -23,6 +23,8 @@ public class PostInSectionActivity extends PostListActivity {
 
     @Override
     protected void displayPostList(List<RedditPost> postList) {
+        listExp = findViewById(R.id.listExpandable);
+
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
 
