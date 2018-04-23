@@ -56,7 +56,7 @@ public class ExpandablePostAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getGroup(int groupPosition) {
-        return listChildData.get(listDataHeader.get(groupPosition));
+        return listDataHeader.get(groupPosition);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class ExpandablePostAdapter extends BaseExpandableListAdapter {
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.post_list_header, parent);
+            convertView = inflater.inflate(R.layout.header_post_list, null);
         }
 
         TextView lblListHeader = convertView.findViewById(R.id.tvHeader);
@@ -94,8 +94,84 @@ public class ExpandablePostAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
+    public int getChildType(int groupPosition, int childPosition) {
+        if (groupPosition == 0) {
+            return super.getChildType(groupPosition, childPosition);
+        } else if (childPosition < listChildData.get(listDataHeader.get(1)).size() - 1) {
+            return ITEM_POST;
+        } else {
+            return ITEM_FOOTER;
+        }
+    }
+
+    @Override
+    public int getChildTypeCount() {
+        return 2;
+    }
+
+    public class ViewHolder {
+
+        TextView tvScore;
+        TextView tvAuthor;
+        TextView tvRedditName;
+        TextView tvTitle;
+        TextView tvCommentCount;
+        View layout;
+
+        ViewHolder(View v, int itemType) {
+            this.layout = v;
+
+            if (itemType == ITEM_POST) {
+                tvScore = v.findViewById(R.id.tvScore);
+                tvAuthor = v.findViewById(R.id.tvAuthor);
+                tvRedditName = v.findViewById(R.id.tvRedditName);
+                tvTitle = v.findViewById(R.id.tvTitle);
+                tvCommentCount = v.findViewById(R.id.tvCommentCount);
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        return null;
+
+        final RedditPost post = (RedditPost) getChild(groupPosition, childPosition);
+
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+
+            if (getChildType(groupPosition, childPosition) == ITEM_POST) {
+                convertView = inflater.inflate(R.layout.item_reddit_post, null);
+            } else {
+                convertView = inflater.inflate(R.layout.item_footer, null);
+            }
+        }
+
+        if (getChildType(groupPosition, childPosition) == ITEM_POST) {
+            ViewHolder viewHolder = new ViewHolder(convertView, ITEM_POST);
+
+            long time = post.getCreatedUTC();
+            viewHolder.tvScore.setText(post.getScore() + "");
+            viewHolder.tvAuthor.setText(post.getAuthor());
+            viewHolder.tvRedditName.setText(post.getSubreddit());
+            viewHolder.tvTitle.setText(post.getTitle());
+            viewHolder.tvCommentCount.setText(post.getCommentCount()
+                    + " Comments"
+                    + " • "
+                    + post.getDomain()
+                    + " • "
+                    + getDisplayTime(time));
+
+
+            if (groupPosition == 0) {
+                viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.post_title_sticky));
+            } else {
+                viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.textPrimary));
+            }
+
+        }
+
+        return convertView;
     }
 
     @Override
