@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
-    public static final String REDDIT_PAGE_LINK = "https://www.reddit.com/r/androiddev/";
+    private static final String REDDIT_PAGE_LINK = "https://www.reddit.com/r/androiddev/";
 
     private final long ONE_MINUTE = 60;
     private final long ONE_HOUR = 3600;
@@ -44,7 +44,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         TextView tvTitle;
         TextView tvCommentCount;
         View layout;
-
 
         ViewHolder(View v, int itemType) {
             super(v);
