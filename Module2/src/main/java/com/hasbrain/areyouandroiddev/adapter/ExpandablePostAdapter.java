@@ -162,7 +162,6 @@ public class ExpandablePostAdapter extends BaseExpandableListAdapter {
                     + " • "
                     + getDisplayTime(time));
 
-
             if (groupPosition == 0) {
                 viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.post_title_sticky));
             } else {

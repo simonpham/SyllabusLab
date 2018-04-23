@@ -105,6 +105,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
                 if (postList.get(position).isStickyPost()) {
                     viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.post_title_sticky));
+                } else {
+                    viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.textPrimary));
                 }
 
                 viewHolder.layout.setOnClickListener(new View.OnClickListener() {
