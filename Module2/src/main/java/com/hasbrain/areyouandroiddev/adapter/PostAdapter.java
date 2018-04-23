@@ -22,12 +22,17 @@ import java.util.List;
  */
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
+    public static final String REDDIT_PAGE_LINK = "https://www.reddit.com/r/androiddev/";
+
     private final long ONE_MINUTE = 60;
     private final long ONE_HOUR = 3600;
     private final long ONE_DAY = 86400;
     private final long ONE_WEEK = 604800;
     private final long ONE_MONTH = 2629743;
     private final long ONE_YEAR = 31556926;
+
+    private final int ITEM_POST = 0;
+    private final int ITEM_FOOTER = 1;
 
     private Context context;
     private List<RedditPost> postList;
@@ -41,15 +46,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         View layout;
 
 
-        ViewHolder(View v) {
+        ViewHolder(View v, int itemType) {
             super(v);
             this.layout = v;
 
-            tvScore = v.findViewById(R.id.tvScore);
-            tvAuthor = v.findViewById(R.id.tvAuthor);
-            tvRedditName = v.findViewById(R.id.tvRedditName);
-            tvTitle = v.findViewById(R.id.tvTitle);
-            tvCommentCount = v.findViewById(R.id.tvCommentCount);
+            if (itemType == ITEM_POST) {
+                tvScore = v.findViewById(R.id.tvScore);
+                tvAuthor = v.findViewById(R.id.tvAuthor);
+                tvRedditName = v.findViewById(R.id.tvRedditName);
+                tvTitle = v.findViewById(R.id.tvTitle);
+                tvCommentCount = v.findViewById(R.id.tvCommentCount);
+            }
         }
     }
 
@@ -58,49 +65,76 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         this.postList = postList;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (position < getItemCount() - 1) {
+            return ITEM_POST;
+        }
+        return ITEM_FOOTER;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.item_reddit_post, parent, false);
-
-        return new ViewHolder(v);
+        if (viewType == ITEM_POST) {
+            View v = inflater.inflate(R.layout.item_reddit_post, parent, false);
+            return new ViewHolder(v, ITEM_POST);
+        } else {
+            View v = inflater.inflate(R.layout.item_footer, parent, false);
+            return new ViewHolder(v, ITEM_FOOTER);
+        }
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
 
-        long time = postList.get(position).getCreatedUTC();
-        viewHolder.tvScore.setText(postList.get(position).getScore() + "");
-        viewHolder.tvAuthor.setText(postList.get(position).getAuthor());
-        viewHolder.tvRedditName.setText(postList.get(position).getSubreddit());
-        viewHolder.tvTitle.setText(postList.get(position).getTitle());
-        viewHolder.tvCommentCount.setText(postList.get(position).getCommentCount()
-                + " Comments"
-                + " • "
-                + postList.get(position).getDomain()
-                + " • "
-                + getDisplayTime(time));
+        switch (getItemViewType(position)) {
+            case ITEM_POST:
+                long time = postList.get(position).getCreatedUTC();
+                viewHolder.tvScore.setText(postList.get(position).getScore() + "");
+                viewHolder.tvAuthor.setText(postList.get(position).getAuthor());
+                viewHolder.tvRedditName.setText(postList.get(position).getSubreddit());
+                viewHolder.tvTitle.setText(postList.get(position).getTitle());
+                viewHolder.tvCommentCount.setText(postList.get(position).getCommentCount()
+                        + " Comments"
+                        + " • "
+                        + postList.get(position).getDomain()
+                        + " • "
+                        + getDisplayTime(time));
 
-        if (postList.get(position).isStickyPost()) {
-            viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.post_title_sticky));
+                if (postList.get(position).isStickyPost()) {
+                    viewHolder.tvTitle.setTextColor(context.getResources().getColor(R.color.post_title_sticky));
+                }
+
+                viewHolder.layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, PostViewActivity.class);
+                        intent.putExtra("PostListActivity.POST_URL", postList.get(viewHolder.getAdapterPosition()).getUrl());
+                        context.startActivity(intent);
+                    }
+                });
+                break;
+            case ITEM_FOOTER:
+                viewHolder.layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(context, PostViewActivity.class);
+                        intent.putExtra("PostListActivity.POST_URL", REDDIT_PAGE_LINK);
+                        context.startActivity(intent);
+                    }
+                });
+                break;
         }
 
 
-        viewHolder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, PostViewActivity.class);
-                intent.putExtra("PostListActivity.POST_URL", postList.get(viewHolder.getAdapterPosition()).getUrl());
-                context.startActivity(intent);
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return postList.size();
+        return postList.size() + 1;
     }
 
     @SuppressLint("SimpleDateFormat")
