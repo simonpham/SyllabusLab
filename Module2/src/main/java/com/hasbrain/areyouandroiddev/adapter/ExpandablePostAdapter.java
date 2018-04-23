@@ -138,7 +138,7 @@ public class ExpandablePostAdapter extends BaseExpandableListAdapter {
         final RedditPost post = (RedditPost) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(context);
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
             if (getChildType(groupPosition, childPosition) == ITEM_POST) {
                 convertView = inflater.inflate(R.layout.item_reddit_post, null);
