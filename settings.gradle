@@ -1,1 +1,1 @@
-include ':Module2'
+include ':Module2', ':Module3'
