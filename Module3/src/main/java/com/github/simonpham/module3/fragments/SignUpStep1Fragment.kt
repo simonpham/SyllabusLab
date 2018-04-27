@@ -18,13 +18,13 @@ private const val ARG_PARAM2 = "param2"
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [SignUpStepOne.OnFragmentInteractionListener] interface
+ * [SignUpStep1Fragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
- * Use the [SignUpStepOne.newInstance] factory method to
+ * Use the [SignUpStep1Fragment.newInstance] factory method to
  * create an instance of this fragment.
  *
  */
-class SignUpStepOne : Fragment() {
+class SignUpStep1Fragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -86,12 +86,12 @@ class SignUpStepOne : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment SignUpStepOne.
+         * @return A new instance of fragment SignUpStep1Fragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-                SignUpStepOne().apply {
+                SignUpStep1Fragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
                         putString(ARG_PARAM2, param2)
